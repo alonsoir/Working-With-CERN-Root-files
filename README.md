@@ -7,50 +7,24 @@ To read:
 
 https://es.wikipedia.org/wiki/Muon
 
-  aironman@MacBook-Pro-Retina-de-Alonso ~> spark-shell --packages org.diana-hep:root4j:0.1.6 --jars /Users/aironman/Downloads/spark-root_2.11-0.1.17.jar
-  Ivy Default Cache set to: /Users/aironman/.ivy2/cache
-  The jars for the packages stored in: /Users/aironman/.ivy2/jars
-  :: loading settings :: url = jar:file:/usr/local/Cellar/apache-spark/2.4.1/libexec/jars/ivy-2.4.0.jar!/org/apache/ivy/core/settings/ivysettings.xml
-  org.diana-hep#root4j added as a dependency
-  :: resolving dependencies :: org.apache.spark#spark-submit-parent-5af6fba9-0ea8-4b99-adc1-ca8fdc11e3d1;1.0
-    confs: [default]
-    found org.diana-hep#root4j;0.1.6 in central
-    found org.apache.bcel#bcel;5.2 in central
-    found jakarta-regexp#jakarta-regexp;1.4 in spark-list
-    found org.tukaani#xz;1.2 in local-m2-cache
-  :: resolution report :: resolve 233ms :: artifacts dl 5ms
-    :: modules in use:
-    jakarta-regexp#jakarta-regexp;1.4 from spark-list in [default]
-    org.apache.bcel#bcel;5.2 from central in [default]
-    org.diana-hep#root4j;0.1.6 from central in [default]
-    org.tukaani#xz;1.2 from local-m2-cache in [default]
-    ---------------------------------------------------------------------
-    |                  |            modules            ||   artifacts   |
-    |       conf       | number| search|dwnlded|evicted|| number|dwnlded|
-    ---------------------------------------------------------------------
-    |      default     |   4   |   0   |   0   |   0   ||   4   |   0   |
-    ---------------------------------------------------------------------
-  :: retrieving :: org.apache.spark#spark-submit-parent-5af6fba9-0ea8-4b99-adc1-ca8fdc11e3d1
-    confs: [default]
-    0 artifacts copied, 4 already retrieved (0kB/7ms)
-  19/05/07 14:56:07 WARN NativeCodeLoader: Unable to load native-hadoop library for your platform... using builtin-java classes where applicable
-  Using Spark's default log4j profile: org/apache/spark/log4j-defaults.properties
-  Setting default log level to "WARN".
-  To adjust logging level use sc.setLogLevel(newLevel). For SparkR, use setLogLevel(newLevel).
-  Spark context Web UI available at http://192.168.1.36:4040
-  Spark context available as 'sc' (master = local[*], app id = local-1557233773635).
-  Spark session available as 'spark'.
-  Welcome to
-        ____              __
-       / __/__  ___ _____/ /__
-      _\ \/ _ \/ _ `/ __/  '_/
-     /___/ .__/\_,_/_/ /_/\_\   version 2.4.1
-        /_/
-           
-  Using Scala version 2.11.12 (Java HotSpot(TM) 64-Bit Server VM, Java 1.8.0_172)
-  Type in expressions to have them evaluated.
-  Type :help for more information.
+  ## Running a spark-shell with necessary spark-root_2.11-0.1.17.jar file. First thing to do is to download it!!
 
+    ~> spark-shell --packages org.diana-hep:root4j:0.1.6 --jars /Users/aironman/Downloads/spark-root_2.11-0.1.17.jar
+    Spark context Web UI available at http://192.168.1.36:4040
+    Spark context available as 'sc' (master = local[*], app id = local-1557233773635).
+    Spark session available as 'spark'.
+    Welcome to
+          ____              __
+         / __/__  ___ _____/ /__
+        _\ \/ _ \/ _ `/ __/  '_/
+       /___/ .__/\_,_/_/ /_/\_\   version 2.4.1
+          /_/
+             
+    Using Scala version 2.11.12 (Java HotSpot(TM) 64-Bit Server VM, Java 1.8.0_172)
+    Type in expressions to have them evaluated.
+    Type :help for more information.
+
+  ## Importing root library...
   scala> import org.dianahep.sparkroot.experimental._
   import org.dianahep.sparkroot.experimental._
 
@@ -60,55 +34,40 @@ https://es.wikipedia.org/wiki/Muon
   scala> val dfMuons = spark.read.root("/Users/aironman/Downloads/complete_set_of_ATLAS_open_data_samples_July_2016/Data/DataMuons.root")
   dfMuons: org.apache.spark.sql.DataFrame = [runNumber: int, eventNumber: int ... 44 more fields]
 
-  scala> dfMuons.show(10,false)
-  19/05/07 15:03:25 WARN Utils: Truncated the string representation of a plan since it was too large. This behavior can be adjusted by setting 'spark.debug.maxToStringFields' in SparkEnv.conf.
-  +---------+-----------+-------------+--------+------+----------+------------------+---------------+----------------+----------------+-------------------+-----------------+-------------------+-----+-----+-------+-------------+-----+----------------+---------------+-----------+-------------+------------+-----------+--------------+----------+--------+-----------+------------+------------+---------------------+------------------------+---------+----------+-----+--------+-----------+-----------+-----------+-----------+----------+-----------+------------+----------------+-------+-------------+
-  |runNumber|eventNumber|channelNumber|mcWeight|pvxp_n|vxp_z     |scaleFactor_PILEUP|scaleFactor_ELE|scaleFactor_MUON|scaleFactor_BTAG|scaleFactor_TRIGGER|scaleFactor_JVFSF|scaleFactor_ZVERTEX|trigE|trigM|passGRL|hasGoodVertex|lep_n|lep_truthMatched|lep_trigMatched|lep_pt     |lep_eta      |lep_phi     |lep_E      |lep_z0        |lep_charge|lep_type|lep_flag   |lep_ptcone30|lep_etcone20|lep_trackd0pvunbiased|lep_tracksigd0pvunbiased|met_et   |met_phi   |jet_n|alljet_n|jet_pt     |jet_eta    |jet_phi    |jet_E      |jet_m     |jet_jvf    |jet_trueflav|jet_truthMatched|jet_SV0|jet_MV1      |
-  +---------+-----------+-------------+--------+------+----------+------------------+---------------+----------------+----------------+-------------------+-----------------+-------------------+-----+-----+-------+-------------+-----+----------------+---------------+-----------+-------------+------------+-----------+--------------+----------+--------+-----------+------------+------------+---------------------+------------------------+---------+----------+-----+--------+-----------+-----------+-----------+-----------+----------+-----------+------------+----------------+-------+-------------+
-  |207490   |17281852   |207490       |0.0     |15    |-12.316585|0.0               |0.0            |0.0             |0.0             |0.0                |0.0              |0.0                |false|true |true   |true         |1    |[false]         |[3]            |[40531.855]|[0.288244]   |[1.3469992] |[42227.465]|[-0.045446984]|[-1.0]    |[13]    |[568344575]|[0.0]       |[94.18325]  |[-0.04912882]        |[0.0152232405]          |94215.1  |-1.3943559|0    |0       |[]         |[]         |[]         |[]         |[]        |[]         |[]          |[]              |[]     |[]           |
-  |207490   |17282007   |207490       |0.0     |15    |22.651913 |0.0               |0.0            |0.0             |0.0             |0.0                |0.0              |0.0                |false|true |true   |true         |1    |[false]         |[3]            |[37172.49] |[-0.21478392]|[-2.1380057]|[38033.36] |[0.22578493]  |[1.0]     |[13]    |[568344575]|[0.0]       |[65.88673]  |[-0.032381147]       |[0.025347514]           |30354.057|0.3259549 |1    |1       |[27929.969]|[-2.170531]|[1.42328]  |[124052.25]|[4573.633]|[0.9523457]|[-99]       |[0]             |[0.0]  |[0.055551887]|
-  |207490   |17282941   |207490       |0.0     |14    |67.00033  |0.0               |0.0            |0.0             |0.0             |0.0                |0.0              |0.0                |false|true |true   |true         |1    |[false]         |[3]            |[41404.363]|[-1.2001014] |[1.3576007] |[74975.45] |[-0.030548852]|[1.0]     |[13]    |[568344575]|[0.0]       |[628.7983]  |[-0.0059319637]      |[0.018147442]           |54632.633|-2.053428 |0    |0       |[]         |[]         |[]         |[]         |[]        |[]         |[]          |[]              |[]     |[]           |
-  |207490   |17283582   |207490       |0.0     |14    |25.114586 |0.0               |0.0            |0.0             |0.0             |0.0                |0.0              |0.0                |false|true |true   |true         |1    |[false]         |[3]            |[36330.36] |[1.6244663]  |[-0.0825191]|[95780.08] |[0.016617686] |[1.0]     |[13]    |[568344575]|[0.0]       |[78.632385] |[-0.012363502]       |[0.017884906]           |18974.707|2.3157902 |0    |0       |[]         |[]         |[]         |[]         |[]        |[]         |[]          |[]              |[]     |[]           |
-  |207490   |17284798   |207490       |0.0     |13    |5.419942  |0.0               |0.0            |0.0             |0.0             |0.0                |0.0              |0.0                |false|true |true   |true         |1    |[false]         |[1]            |[29865.918]|[1.9333806]  |[-2.166267] |[105389.39]|[-0.008121626]|[1.0]     |[13]    |[568344575]|[0.0]       |[228.17558] |[-0.0022841152]      |[0.017784366]           |18013.09 |0.86960316|0    |0       |[]         |[]         |[]         |[]         |[]        |[]         |[]          |[]              |[]     |[]           |
-  |207490   |17285935   |207490       |0.0     |5     |-29.495798|0.0               |0.0            |0.0             |0.0             |0.0                |0.0              |0.0                |false|true |true   |true         |1    |[false]         |[3]            |[39808.71] |[-2.2543075] |[-0.8124007]|[191751.39]|[0.032703664] |[-1.0]    |[13]    |[568344575]|[0.0]       |[-95.009285]|[-0.027823856]       |[0.016839173]           |36319.457|2.1266718 |0    |0       |[]         |[]         |[]         |[]         |[]        |[]         |[]          |[]              |[]     |[]           |
-  |207490   |17285705   |207490       |0.0     |16    |-41.16512 |0.0               |0.0            |0.0             |0.0             |0.0                |0.0              |0.0                |false|true |true   |true         |1    |[false]         |[1]            |[25943.613]|[-0.6525827] |[2.1666195] |[31666.87] |[0.0037387605]|[-1.0]    |[13]    |[551557119]|[2617.5457] |[2193.5383] |[-0.005797062]       |[0.014282377]           |16567.258|0.5757681 |1    |1       |[34763.277]|[1.9791657]|[-1.325527]|[128388.18]|[7173.404]|[0.8387679]|[-99]       |[0]             |[0.0]  |[0.05587074] |
-  |207490   |17286780   |207490       |0.0     |11    |-34.865147|0.0               |0.0            |0.0             |0.0             |0.0                |0.0              |0.0                |false|true |true   |true         |1    |[false]         |[3]            |[38542.887]|[-0.6452386] |[1.7496207] |[46848.598]|[0.010180376] |[-1.0]    |[13]    |[568344575]|[0.0]       |[719.70996] |[-0.007343145]       |[0.01543821]            |46948.73 |-1.0433749|0    |0       |[]         |[]         |[]         |[]         |[]        |[]         |[]          |[]              |[]     |[]           |
-  |207490   |17288279   |207490       |0.0     |13    |-34.4249  |0.0               |0.0            |0.0             |0.0             |0.0                |0.0              |0.0                |false|true |true   |true         |1    |[false]         |[1]            |[32593.084]|[2.394099]   |[-2.8295686]|[180069.89]|[-0.04895938] |[1.0]     |[13]    |[568344575]|[0.0]       |[408.78912] |[0.03346716]         |[0.02250342]            |26812.076|0.6027184 |0    |0       |[]         |[]         |[]         |[]         |[]        |[]         |[]          |[]              |[]     |[]           |
-  |207490   |17286783   |207490       |0.0     |9     |-43.56932 |0.0               |0.0            |0.0             |0.0             |0.0                |0.0              |0.0                |false|true |true   |true         |1    |[false]         |[1]            |[32656.75] |[-2.0470903] |[0.6496125] |[128576.88]|[0.06338643]  |[1.0]     |[13]    |[568344575]|[0.0]       |[-1059.2249]|[-0.0042003784]      |[0.01684502]            |56296.965|-2.1432886|0    |0       |[]         |[]         |[]         |[]         |[]        |[]         |[]          |[]              |[]     |[]           |
-  +---------+-----------+-------------+--------+------+----------+------------------+---------------+----------------+----------------+-------------------+-----------------+-------------------+-----+-----+-------+-------------+-----+----------------+---------------+-----------+-------------+------------+-----------+--------------+----------+--------+-----------+------------+------------+---------------------+------------------------+---------+----------+-----+--------+-----------+-----------+-----------+-----------+----------+-----------+------------+----------------+-------+-------------+
-  only showing top 10 rows
-
-  # Creating parquet files...
+  ## Creating parquet files...
   scala> val muonsParquetFile = dfMuons.write.parquet("dfMuons.parquet")
   muonsParquetFile: Unit = ()
 
-  # a little error creating gamma parquet file...
+  ## a little error creating gamma parquet file... dfGammam??
   scala> val gammaParquetFile = dfGamma.write.parquet("dfGammam.parquet")
   gammaParquetFile: Unit = ()                                                     
 
-  # Reading created parquet files...
+  ## Reading created parquet files...
   scala> val muonsParquetFile = spark.read.parquet("dfMuons.parquet")
   muonsParquetFile: org.apache.spark.sql.DataFrame = [runNumber: int, eventNumber: int ... 44 more fields]
 
   scala> val gammaParquetFile = spark.read.parquet("dfGammam.parquet")
   gammaParquetFile: org.apache.spark.sql.DataFrame = [runNumber: int, eventNumber: int ... 44 more fields]
 
-  # Caching Dataframes...
+  ## Caching Dataframes...
   scala> dfMuons.cache()
   res4: dfMuons.type = [runNumber: int, eventNumber: int ... 44 more fields]
 
   scala> dfGamma.cache()
   res5: dfGamma.type = [runNumber: int, eventNumber: int ... 44 more fields]
 
+  ## Counting rows...
   scala> dfMuons.count
   res2: Long = 7028084                                                            
 
   scala> dfGamma.count
   res3: Long = 7917590                                                            
 
+  ## necessary imports
   scala> import spark.implicits._
   import spark.implicits._
 
+  ## printing schema to output
   scala> dfMuons.printSchema
   root
    |-- runNumber: integer (nullable = true)
