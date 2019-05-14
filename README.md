@@ -5,6 +5,7 @@ The idea with this project is to learn the basis about how to use spark with gen
 
     Download spark from official site: https://spark.apache.org/downloads.html
     Download spark-root_2.11-0.1.17.jar file from https://github.com/diana-hep/spark-root/blob/master/jars/spark-root_2.11-0.1.17.jar
+    Download ROOT files from http://opendata.cern.ch/record/3860 6GB
     That is all.
 
   ## Working
