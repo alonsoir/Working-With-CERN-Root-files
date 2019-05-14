@@ -1,9 +1,6 @@
 # Working-With-CERN-Root-files
 The idea with this project is to learn the basis about how to use spark with generated ROOT files from LHC experiment.
 
-
-  ## Running a spark-shell with necessary spark-root_2.11-0.1.17.jar file. First thing to do is to download it.
-
   ## Preliminaries
 
     Download spark from official site: https://spark.apache.org/downloads.html
